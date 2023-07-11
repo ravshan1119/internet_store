@@ -17,9 +17,7 @@ class ApiProvider {
     try {
       final response = await http.post(
         url,
-        body: {
-          {"username": username, "password": password}
-        },
+        body: {"username": username, "password": password},
       );
       if (response.statusCode == 200) {
         String token = jsonDecode(response.body)["token"];

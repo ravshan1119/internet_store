@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:internet_store/data/network/providers/api_provider.dart';
+import 'package:internet_store/data/network/repositories/login_repo.dart';
 import 'package:internet_store/ui/home/home_screen.dart';
 import 'package:internet_store/ui/login/widgets/global_text_field.dart';
 import 'package:internet_store/ui/widgets/global_bottom.dart';
@@ -9,15 +11,37 @@ import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isLoading = false;
+  LoginRepo loginRepo = LoginRepo(apiProvider: ApiProvider());
+
+  _fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    _fetchData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController textEditingControllerUsername =
-        TextEditingController();
-    TextEditingController textEditingControllerPassword =
-        TextEditingController();
+    final TextEditingController usernameController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return Scaffold(
         backgroundColor: AppColors.c_F9FAFB,
         appBar: AppBar(
@@ -73,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                 child: GlobalTextField(
                     icon: AppImages.user,
                     hintText: "username",
-                    controller: textEditingControllerUsername,
+                    controller: usernameController,
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     textAlign: TextAlign.start),
@@ -86,9 +110,9 @@ class LoginScreen extends StatelessWidget {
                 child: GlobalTextField(
                     icon: AppImages.password,
                     hintText: "password",
-                    controller: textEditingControllerPassword,
+                    controller: passwordController,
                     keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     obscureText: true,
                     textAlign: TextAlign.start),
               ),
@@ -112,13 +136,21 @@ class LoginScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: GlobalButton(
                     title: "Login",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
-                        ),
+                    onTap: () async {
+                      bool isLogged = await loginRepo.loginUser(
+                        username: usernameController.text,
+                        password: passwordController.text,
                       );
+                      print(usernameController.text);
+                      print(passwordController.text);
+                      if (!isLogged && context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        );
+                      } else {}
                     }),
               ),
               SizedBox(
