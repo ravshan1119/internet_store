@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:internet_store/uii/home/widgets/container_category.dart';
 import 'package:internet_store/uii/login/widgets/global_text_field.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
@@ -31,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: EdgeInsets.only(
                 top: 16.h, bottom: 16.h, right: 24.w, left: 24.w),
-            child: ZoomTapAnimation(child: SvgPicture.asset(AppImages.natification)),
+            child: ZoomTapAnimation(
+                child: SvgPicture.asset(AppImages.natification)),
           )
         ],
         leading: Padding(
@@ -65,10 +67,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.search,
                   textAlign: TextAlign.start),
-            )
+            ),
+            SizedBox(
+              height: 220.h,
+              width: MediaQuery.of(context).size.width,
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ...List.generate(
+                      category.length,
+                      (index) => ZoomTapAnimation(
+                          onTap: () {}, child: category[index]))
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+List<ContainerCategory> category = [
+  ContainerCategory(
+    color: AppColors.c_FC6828,
+    category: "Women",
+    image: AppImages.women,
+  ),
+  ContainerCategory(
+    color: AppColors.c_FC6828,
+    category: "Women",
+    image: AppImages.women,
+  ),
+  ContainerCategory(
+    color: AppColors.c_FC6828,
+    category: "Women",
+    image: AppImages.women,
+  )
+];

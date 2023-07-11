@@ -2,6 +2,7 @@ class AppImages {
   static String heartImage = "assets/images/heart_image.png";
   static String logo_png = "assets/images/logo.png";
   static String women = "assets/images/women.png";
+  static String womenImage = "assets/images/women_image.png";
 
   static String cart = "assets/svg/cart.svg";
   static String delete = "assets/svg/delete.svg";
