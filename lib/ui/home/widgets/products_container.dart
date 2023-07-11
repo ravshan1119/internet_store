@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:internet_store/utils/app_colors.dart';
-import 'package:internet_store/utils/app_images.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class ProductsContainer extends StatefulWidget {
@@ -46,7 +44,7 @@ class _ProductsContainerState extends State<ProductsContainer> {
                   ),
                   child: Stack(
                     children: [
-                      Image.asset(
+                      Image.network(
                         widget.image,
                         fit: BoxFit.cover,
                       ),
@@ -91,12 +89,14 @@ class _ProductsContainerState extends State<ProductsContainer> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 10.h,),
               SizedBox(
                 height: 22.h,
+                width: 175.w,
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                      fontSize: 22.spMin,
+                      fontSize: 14.spMin,
                       fontWeight: FontWeight.w500,
                       color: AppColors.c_040415,
                       fontFamily: "LeagueSpartan"),
@@ -104,6 +104,7 @@ class _ProductsContainerState extends State<ProductsContainer> {
               ),
               SizedBox(
                 height: 10.h,
+                width: 175.w,
               ),
               SizedBox(
                 height: 22.h,
