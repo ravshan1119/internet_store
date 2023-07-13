@@ -12,6 +12,7 @@ class ProductsContainer extends StatefulWidget {
       required this.price,
       required this.voidCallbackFavorite,
       required this.voidCallbackImage,
+      required this.voidCallbackLogTap,
       this.favorite = false})
       : super(key: key);
   final String image;
@@ -19,6 +20,7 @@ class ProductsContainer extends StatefulWidget {
   final String price;
   VoidCallback voidCallbackFavorite;
   VoidCallback voidCallbackImage;
+  VoidCallback voidCallbackLogTap;
   bool favorite;
 
   @override
@@ -30,6 +32,7 @@ class _ProductsContainerState extends State<ProductsContainer> {
   Widget build(BuildContext context) {
     return ZoomTapAnimation(
       onTap: widget.voidCallbackImage,
+      onLongTap: widget.voidCallbackLogTap,
       child: SizedBox(
         height: 232.h,
         width: 175.w,

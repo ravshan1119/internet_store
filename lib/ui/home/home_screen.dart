@@ -11,6 +11,7 @@ import 'package:internet_store/ui/home/widgets/home_screen_shimmer.dart';
 import 'package:internet_store/ui/home/widgets/products_container.dart';
 import 'package:internet_store/ui/login/widgets/global_text_field.dart';
 import 'package:internet_store/ui/product_ditail/product_ditail_screen.dart';
+import 'package:internet_store/ui/users/users_screen.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -30,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ProductModel> productsWomenClothing = [];
   List<ProductModel> productsMensClothing = [];
   List<ProductModel> productsByLimit = [];
+  List<ProductModel> productsByAsc = [];
+  List<ProductModel> productsByDesc = [];
   List<String> category = [];
 
   ProductRepo productRepo = ProductRepo(apiProvider: ApiProvider());
@@ -37,9 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TextEditingController textEditingController = TextEditingController();
   TextEditingController textEditingControllerLimit = TextEditingController();
-  int number = 0;
   bool isLoading = false;
   List categorilar = [];
+
+  Items? selectedMenu;
+
+  TextEditingController controller = TextEditingController();
 
   _fetchData() async {
     setState(() {
@@ -58,6 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
     productsMensClothing =
         await productRepo.getProductsByCategory("men's clothing");
 
+    productsByAsc = await productRepo.getSortedProducts("asc");
+    productsByDesc = await productRepo.getSortedProducts("desc");
     productsByLimit = await productRepo.getProductsByLimit(number);
 
     path = products;
@@ -133,98 +141,91 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 SizedBox(
                                   height: 74.h,
-                                  width: 250.w,
+                                  width: 330.w,
                                   child: Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 24.w),
                                     child: GlobalTextField(
+                                        onChanged: (v) {},
                                         icon: AppImages.search,
                                         hintText:
                                             "Search for tshirts, jeans, shorts, jackets",
-                                        controller: textEditingController,
                                         keyboardType: TextInputType.text,
                                         textInputAction: TextInputAction.search,
                                         textAlign: TextAlign.start),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 74.h,
-                                  width: 150.w,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(right: 24.w),
-                                      child: TextField(
-                                        onChanged: (v) {
+                                Padding(
+                                  padding: EdgeInsets.only(right: 24.w),
+                                  child: PopupMenuButton<Items>(
+                                    initialValue: selectedMenu,
+                                    onSelected: (Items item) {
+                                      setState(() {
+                                        selectedMenu = item;
+                                        if (item.index == 3) {
+                                          showDialog<String>(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                AlertDialog(
+                                              title: const Text('Limit'),
+                                              content: TextField(
+                                                textInputAction:
+                                                    TextInputAction.send,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                controller: controller,
+                                              ),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      number = int.parse(
+                                                          controller.text);
+                                                      path = productsByLimit;
+                                                    });
+                                                    return Navigator.pop(
+                                                        context, 'done');
+                                                  },
+                                                  child: const Text('done'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } else if (item.index == 0) {
                                           setState(() {
-                                            setState(() {
-                                              number = int.parse(v);
-                                              path = productsByLimit;
-                                            });
+                                            path = productsAll;
                                           });
-                                        },
-                                        style: TextStyle(
-                                            fontSize: 16.spMin,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.c_040415,
-                                            fontFamily: "LeagueSpartan"),
-                                        textAlign: TextAlign.start,
-                                        textInputAction: TextInputAction.send,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: AppColors.white,
-                                          prefixIcon: Padding(
-                                            padding: const EdgeInsets.all(20),
-                                            child: SvgPicture.asset(
-                                                AppImages.more),
-                                          ),
-                                          hintText: "limit",
-                                          hintStyle: TextStyle(
-                                              fontSize: 16.spMin,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.c_A8AFB9,
-                                              fontFamily: "LeagueSpartan"),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            borderSide: BorderSide(
-                                                width: 1,
-                                                color: AppColors.white),
-                                          ),
-                                          disabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            borderSide: BorderSide(
-                                              width: 1,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            borderSide: BorderSide(
-                                              width: 1,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            borderSide: BorderSide(
-                                              width: 1,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            borderSide: BorderSide(
-                                              width: 1,
-                                              color: AppColors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )),
+                                        } else if (item.index == 1) {
+                                          setState(() {
+                                            path = productsByAsc;
+                                          });
+                                        } else if (item.index == 2) {
+                                          setState(() {
+                                            path = productsByDesc;
+                                          });
+                                        }
+                                      });
+                                    },
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry<Items>>[
+                                      const PopupMenuItem<Items>(
+                                        value: Items.all,
+                                        child: Text('all'),
+                                      ),
+                                      const PopupMenuItem<Items>(
+                                        value: Items.asc,
+                                        child: Text('A-Z'),
+                                      ),
+                                      const PopupMenuItem<Items>(
+                                        value: Items.desc,
+                                        child: Text('Z-A'),
+                                      ),
+                                      const PopupMenuItem<Items>(
+                                        value: Items.limit,
+                                        child: Text('limit'),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -331,6 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           );
                                         },
+                                        voidCallbackLogTap: () {},
                                       );
                                     },
                                   ),
@@ -356,11 +358,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SvgPicture.asset(AppImages.home),
-                              SvgPicture.asset(AppImages.cart),
-                              Icon(
-                                Icons.person,
-                                color: AppColors.c_A8AFB9,
+                              ZoomTapAnimation(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(AppImages.home)),
+                              ZoomTapAnimation(
+                                  onTap: () {},
+                                  child: SvgPicture.asset(AppImages.cart)),
+                              ZoomTapAnimation(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const UsersScreen()));
+                                },
+                                child: Icon(
+                                  Icons.person,
+                                  color: AppColors.c_A8AFB9,
+                                ),
                               )
                             ],
                           ),
@@ -370,3 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ));
   }
 }
+
+int number = 0;
+
+enum Items { all, asc, desc, limit }

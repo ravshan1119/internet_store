@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:internet_store/data/models/product/product_model.dart';
+import 'package:internet_store/ui/home/home_screen.dart';
 import 'package:internet_store/ui/widgets/global_bottom.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
@@ -22,6 +23,14 @@ class _ProductDitailScreenState extends State<ProductDitailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: AppColors.c_040415,
+            )),
         elevation: 0,
         backgroundColor: AppColors.c_F9FAFB,
         systemOverlayStyle:

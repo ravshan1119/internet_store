@@ -143,13 +143,15 @@ class _HomeScreenShimmerState extends State<HomeScreenShimmer> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SvgPicture.asset(AppImages.home),
-                  SvgPicture.asset(AppImages.heartBar),
                   SvgPicture.asset(AppImages.cart),
+                  Icon(
+                    Icons.person,
+                    color: AppColors.c_A8AFB9,
+                  )
                 ],
               ),
             ),
           ),
-
         ],
       ),
     );
