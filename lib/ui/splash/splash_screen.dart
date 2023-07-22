@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:internet_store/data/local/storage_repository.dart';
 import 'package:internet_store/data/network/providers/api_provider.dart';
 import 'package:internet_store/ui/home/home_screen.dart';
+import 'package:internet_store/ui/tab_box/tab_box.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
 
@@ -13,6 +14,7 @@ import '../login/login_screen.dart';
 class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);
   final ApiProvider apiProvider = ApiProvider();
+  String token = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +31,19 @@ class SplashScreen extends StatelessWidget {
   }
 
   void _navigateToWelcomeScreen(BuildContext context) async {
+    token = StorageRepository.getString("token");
+
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            String token = StorageRepository.getString("token");
-            print(StorageRepository.getString("token"));
+            print("AAAAAAAAAAAA $token");
             return token.isNotEmpty
-                ? const HomeScreen()
-                :  LoginScreen(loginRepo: LoginRepo(apiProvider: apiProvider),);
+                ? TabBox(apiProvider: apiProvider)
+                : LoginScreen(
+                    loginRepo: LoginRepo(apiProvider: apiProvider),
+                  );
           },
         ),
       );
