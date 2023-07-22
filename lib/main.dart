@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:internet_store/data/local/storage_repository.dart';
 import 'package:internet_store/ui/splash/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageRepository.getInstance();
   runApp(const MyApp());
 }
 

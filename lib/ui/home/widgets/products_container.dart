@@ -81,7 +81,7 @@ class _ProductsContainerState extends State<ProductsContainer> {
                                 )
                               : Center(
                                   child: Icon(
-                                    Icons.heart_broken,
+                                    Icons.favorite,
                                     color: AppColors.c_A8AFB9,
                                   ),
                                 )),

@@ -11,6 +11,7 @@ import 'package:internet_store/ui/widgets/global_bottom.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
 import 'package:internet_store/utils/utility_function.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -54,8 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
               const SystemUiOverlayStyle(statusBarColor: Colors.grey),
         ),
         body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: SizedBox(
+                  height: 300.h,
+                  width: 300.h,
+                  child: Lottie.asset("assets/login.json",fit: BoxFit.cover),
+                ),
               )
             : SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -148,9 +153,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: GlobalButton(
                           title: "Login",
                           onTap: () async {
-                            StorageRepository.putString("token", "token");
-
-                            if (true) {
+                            if (username.isNotEmpty &&
+                                username.isNotEmpty) {
                               setState(() {
                                 isLoading = true;
                               });
@@ -162,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isLoading = false;
                               });
                               if (isLogged && context.mounted) {
+                                StorageRepository.putString("token", loginRepo.apiProvider.loginUser(username: username, password: password).toString());
                                 showCustomMessage(context, "User Logged");
                                 Navigator.pushReplacement(
                                   context,
@@ -174,21 +179,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               } else {
                                 showCustomMessage(context, "Error occurred...");
                               }
+                            } else {
+                              showCustomMessage(context, "Login data not valid!!!");
                             }
-
-                            bool isLogged = await loginRepo.loginUser(
-                              username: username,
-                              password: password,
-                            );
-                            if (isLogged && context.mounted) {
-                              StorageRepository.putString("token", "token");
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              );
-                            } else {}
                           }),
                     ),
                     SizedBox(

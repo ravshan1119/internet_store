@@ -108,11 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: SvgPicture.asset(AppImages.natification)),
             )
           ],
-          leading: Padding(
-            padding: EdgeInsets.only(
-                top: 16.h, bottom: 16.h, left: 24.w, right: 0.w),
-            child: ZoomTapAnimation(child: SvgPicture.asset(AppImages.more)),
-          ),
           centerTitle: true,
           title: Text(
             "E-SHOP",
@@ -345,41 +340,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      Positioned(
-                        bottom: 21.h,
-                        left: 24.w,
-                        right: 24.w,
-                        child: Container(
-                          height: 78.h,
-                          width: 366.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(44.sp),
-                              color: AppColors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ZoomTapAnimation(
-                                  onTap: () {},
-                                  child: SvgPicture.asset(AppImages.home)),
-                              ZoomTapAnimation(
-                                  onTap: () {},
-                                  child: SvgPicture.asset(AppImages.cart)),
-                              ZoomTapAnimation(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const UsersScreen()));
-                                },
-                                child: Icon(
-                                  Icons.person,
-                                  color: AppColors.c_A8AFB9,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      )
                     ],
                   ));
   }

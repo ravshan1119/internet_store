@@ -19,4 +19,8 @@ class AppImages {
   static String password = "assets/svg/password.svg";
   static String search = "assets/svg/search.svg";
   static String user = "assets/svg/user.svg";
+
+
+
+  static String login = "assets/login.json";
 }

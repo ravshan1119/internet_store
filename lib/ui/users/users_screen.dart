@@ -84,7 +84,7 @@ class _UsersScreenState extends State<UsersScreen> {
                 Padding(
                   padding: const EdgeInsets.all(42),
                   child: GlobalButton(
-                      title: "LogIn",
+                      title: "Log Out",
                       onTap: () {
                         StorageRepository.deleteString("token");
                         Navigator.pushReplacement(
