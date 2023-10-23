@@ -39,11 +39,7 @@ class SplashScreen extends StatelessWidget {
         MaterialPageRoute(
           builder: (BuildContext context) {
             print("AAAAAAAAAAAA $token");
-            return token.isNotEmpty
-                ? TabBox(apiProvider: apiProvider)
-                : LoginScreen(
-                    loginRepo: LoginRepo(apiProvider: apiProvider),
-                  );
+            return  TabBox(apiProvider: apiProvider);
           },
         ),
       );

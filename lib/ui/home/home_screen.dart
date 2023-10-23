@@ -11,7 +11,6 @@ import 'package:internet_store/ui/home/widgets/home_screen_shimmer.dart';
 import 'package:internet_store/ui/home/widgets/products_container.dart';
 import 'package:internet_store/ui/login/widgets/global_text_field.dart';
 import 'package:internet_store/ui/product_ditail/product_ditail_screen.dart';
-import 'package:internet_store/ui/users/users_screen.dart';
 import 'package:internet_store/utils/app_colors.dart';
 import 'package:internet_store/utils/app_images.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
