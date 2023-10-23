@@ -49,6 +49,7 @@ class _ProductsContainerState extends State<ProductsContainer> {
                   child: Stack(
                     children: [
                       CachedNetworkImage(
+                        fit: BoxFit.cover,
                         imageUrl: widget.image,
                         placeholder: (context, url) =>
                             const Center(child: CircularProgressIndicator()),
